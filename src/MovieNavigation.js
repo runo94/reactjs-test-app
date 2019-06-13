@@ -56,80 +56,44 @@ class MovieNavigation extends Component {
 
     constructor(props) {
         super(props);
-        this.state={
-
-        }
-
-        if(this.props.listIDs.length >= 19){
-            let arrElements = this.props.listIDs;
-            let currElement = !!arrElements && arrElements.indexOf(Number(this.props.movieId));
-
-            this.setState({
-                arrElements: arrElements,
-                currElement: currElement
-            })
-            
-        }
-        this.goBack = this.goBack.bind(this);   
-        console.log(this.state);
     }
 
-    componentDidMount() {
-        console.log(this.props.listIDs);
-        if(this.props.listIDs.length >= 19){
-            let arrElements = this.props.listIDs;
-            let currElement = !!arrElements && arrElements.indexOf(Number(this.props.movieId));
-
-            this.setState({
-                arrElements: arrElements,
-                currElement: currElement
-            })
-            
-        }
-    }
-
-    goBack(){
-        this.props.history.goBack();
-    }
-
-    goNext(id, arrElements, currElement, nextElement) {
-        console.log('HIIIIIIIIIIII', this.props.movieId, id);
+    goNext(id, arrElements, currElement) {
+        let nextElement = 0; 
              
-            if(currElement < arrElements.length - 1) {
-                console.log('this.props.listIDs', this.props);              
-                nextElement = currElement + 1
-
-                if(nextElement === arrElements.length - 1) {
-                    console.log('this.props.currPage', this.props.currPage);
-                    this.props.pagesChange(this.props.currPage + 1)  
-                }
-            } else {                   
-                console.log('this.props.listIDs', this.props.listIDs);
-                let nextArrElements = this.props.listIDs;
-                currElement = nextArrElements.indexOf(Number(id));
-                nextElement = currElement
+        if(currElement < arrElements.length - 1) {
+            console.log('this.props.listIDs', this.props);        
+            nextElement = currElement + 1
+            if(nextElement === arrElements.length - 1) {
+                console.log('this.props.currPage', this.props.currPage);
+                this.props.pageChange(this.props.currPage + 1)  
             }
-            
-            return this.props.history.push(`/movie/${arrElements[nextElement]}`)
+            this.props.movieDetails(arrElements[nextElement])
+        } else {             
+            this.props.pageChange(this.props.currPage + 1)   
+            let nextArrElements = this.props.listIDs;
+            currElement = nextArrElements.indexOf(Number(id));
+            nextElement = currElement
+            this.props.movieDetails(arrElements[nextElement])
+        }
+        return this.props.history.push(`/movie/${arrElements[nextElement]}`)
     }
 
     render(){
         const { classes } = this.props;
         let arrElements = this.props.listIDs;
-        let currElement = !!arrElements && arrElements.indexOf(Number(this.props.movieId));
-        let nextElement = 0;
-        
+        let currElement = !!arrElements && arrElements.indexOf(Number(this.props.movieId));  
 
         return(
             <Fragment>
             <Grid item xs={6} className={classes.prevPage}>
-                <Button onClick={this.goBack}  className={classes.prevPageButton}>
+                <Button onClick={this.props.back} className={classes.prevPageButton}>
                     <Icon>navigate_before</Icon> Back
                 </Button>
             </Grid>
              <Grid item xs={6} className={classes.nextPage}>
-                <Button onClick={this.props.movieId ? this.props.movieDetails.bind(this, this.props.movieId) : undefined} className={classes.nextPageButton}>
-                    <div onClick={this.props.listIDs ? this.goNext.bind(this, this.props.movieId, arrElements, currElement, nextElement) : undefined}  className={classes.nextPageButton}>
+                <Button onClick={this.props.listIDs ? this.goNext.bind(this, this.props.movieId, arrElements, currElement) : undefined} className={classes.nextPageButton}>
+                    <div   className={classes.nextPageButton}>
                         Next <Icon>navigate_next</Icon>
                     </div>
                 </Button>

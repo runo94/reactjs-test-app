@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 import './App.css';
 import CardsListMovie from './CardsListMovie';
 import MoviePage from './MoviePage'
+import UserProfile from './UserProfile'
 
 class App extends React.Component {
   constructor(props){
@@ -59,6 +60,7 @@ class App extends React.Component {
           <Header/>
           <Route path="/" exact render={(props) => <CardsListMovie {...props} pagesChange={this.getNowPlayingMovies} moviesList={!!this.state.data && this.state.data} pageNumber={this.state.page} totalCount={this.state.totalCount}/>} />
           <Route path="/movie/:id" render={(props) => <MoviePage {...props}  pagesChange={this.getNowPlayingMovies} listIDs={!!this.state.listIds && this.state.listIds} currPage={this.state.page}/>} />
+          <Route path="/user-profile/" render={(props) => <UserProfile {...props}  />} />
         </div>
       </Router>
     );

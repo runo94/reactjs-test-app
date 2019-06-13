@@ -113,7 +113,6 @@ class CardsListMovie extends React.Component {
 
     render(){
         const { classes } = this.props;
-        console.log('PROOOOOPS CardsLIstMovies', this.props);
                
         return (
             <div>

@@ -57,6 +57,7 @@ class MoviePage extends Component {
         this.state = {
             data: null,
         }   
+        this.goBack = this.goBack.bind(this);
     }
 
     getMovieDetails = (movieId) => {
@@ -77,10 +78,10 @@ class MoviePage extends Component {
             })
     }
 
-    handleChangePage (pageNum) {
-        console.log(pageNum);
-        
-        this.props.pagesChange(pageNum)
+    goBack(){
+        this.props.history.goBack();
+        this.getMovieDetails(this.props.history.location.pathname.slice(7))
+        console.log('WORK!!!!!!!!!!!!!!!!!', this.props.history.location.pathname.slice(7));        
     }
 
     componentDidMount() {
@@ -99,7 +100,7 @@ class MoviePage extends Component {
                 </div>
                 <Grid container className={classes.movieNav}>
                     {
-                        !!this.props.listIDs ? <MovieNavigation history={this.props.history} listIDs={this.props.listIDs} pagesChange={this.handleChangePage} movieDetails={this.getMovieDetails} movieId={this.props.match.params.id} currPage={this.props.currPage}/> : 'Loading...'
+                        !!this.props.listIDs ? <MovieNavigation history={this.props.history} listIDs={this.props.listIDs} pageChange={this.props.pagesChange} movieDetails={this.getMovieDetails} movieId={this.props.match.params.id} currPage={this.props.currPage} back={this.goBack}/> : 'Loading...'
                     }
                 </Grid>
                 <div className={classes.movieWrapper}>
