@@ -45,8 +45,8 @@ class FavoriteButton extends Component {
     };
 
     handleRemoveFavorite(movieId) {
-        let filtered = this.props.favoritesList.filter(id=>id.id !== movieId);
-        console.log(this.props);
+        let filtered = this.props.favoritesList.filter(id => id.id !== this.props.movieInfo.id);
+        console.log('handleRemoveFavorite', filtered);
         localStorage.setItem('favorite', JSON.stringify(filtered))
         this.props.handleChangeFavorites.bind(this, filtered)
         this.checkFavorite(filtered)
